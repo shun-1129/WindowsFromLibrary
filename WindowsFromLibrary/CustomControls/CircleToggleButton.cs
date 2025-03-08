@@ -27,9 +27,9 @@ namespace WindowsFromLibrary.CustomControl
     }
 
     /// <summary>
-    /// トグルボタンクラス
+    /// 円型トグルボタンクラス
     /// </summary>
-    public class ToggleButton : CheckBox
+    public class CircleToggleButton : CheckBox
     {
         #region メンバ変数
         private Color _onBackColor = Color.MediumBlue;
@@ -159,7 +159,7 @@ namespace WindowsFromLibrary.CustomControl
         /// <summary>
         /// デフォルトコンストラクタ
         /// </summary>
-        public ToggleButton ()
+        public CircleToggleButton ()
         {
             this.MinimumSize = new Size ( 45 , 22 );
             this.AutoSize = false;
@@ -174,57 +174,66 @@ namespace WindowsFromLibrary.CustomControl
             if ( _toggleDirection == ToggleDirection.LeftToRight || _toggleDirection == ToggleDirection.RightToLeft )
             {
                 int arcSize = this.Height - 1;
-                Rectangle leftArc = new Rectangle(0, 0, arcSize, arcSize);
-                Rectangle rightArc = new Rectangle(this.Width - arcSize - 2, 0, arcSize, arcSize);
+                Rectangle leftArc = new Rectangle ( 0 , 0 , arcSize , arcSize );
+                Rectangle rightArc = new Rectangle ( this.Width - arcSize - 2 , 0 , arcSize , arcSize );
 
-                GraphicsPath path = new GraphicsPath();
-                path.AddArc ( leftArc , 90 , 180 );
-                path.AddArc ( rightArc , 270 , 180 );
-                path.CloseFigure ();
-                return path;
+                GraphicsPath graphicsPath = new GraphicsPath ();
+                graphicsPath.AddArc ( leftArc , 90 , 180 );
+                graphicsPath.AddArc ( rightArc , 270 , 180 );
+                graphicsPath.CloseFigure ();
+                return graphicsPath;
             }
             else
             {
                 int arcSize = this.Width - 1;
-                Rectangle topArc = new Rectangle(0, 0, arcSize, arcSize);
-                Rectangle bottomArc = new Rectangle(0, this.Height - arcSize - 2, arcSize, arcSize);
+                Rectangle topArc = new Rectangle ( 0 , 0 , arcSize , arcSize );
+                Rectangle bottomArc = new Rectangle ( 0 , this.Height - arcSize - 2 , arcSize , arcSize );
 
-                GraphicsPath path = new GraphicsPath();
-                path.AddArc ( topArc , 180 , 180 );
-                path.AddArc ( bottomArc , 0 , 180 );
-                path.CloseFigure ();
-                return path;
+                GraphicsPath graphicsPath = new GraphicsPath ();
+                graphicsPath.AddArc ( topArc , 180 , 180 );
+                graphicsPath.AddArc ( bottomArc , 0 , 180 );
+                graphicsPath.CloseFigure ();
+                return graphicsPath;
             }
         }
 
         /// <summary>
         /// 描画処理
         /// </summary>
-        protected override void OnPaint ( PaintEventArgs pe )
+        protected override void OnPaint ( PaintEventArgs paintEventArgs )
         {
             int toggleSize = _toggleDirection == ToggleDirection.LeftToRight || _toggleDirection == ToggleDirection.RightToLeft
                 ? this.Height - 5
                 : this.Width - 5;
 
-            pe.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-            pe.Graphics.Clear ( this.BackColor );
+            paintEventArgs.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            paintEventArgs.Graphics.Clear ( this.BackColor );
 
-            bool isOn = this.Checked;
+            bool isCheck = this.Checked;
 
             // 背景描画
-            if ( isOn )
+            if ( isCheck )
             {
                 if ( _solidStyle )
-                    pe.Graphics.FillPath ( new SolidBrush ( _onBackColor ) , GetFigurePath () );
+                {
+                    paintEventArgs.Graphics.FillPath ( new SolidBrush ( _onBackColor ) , GetFigurePath () );
+                }
                 else
-                    pe.Graphics.DrawPath ( new Pen ( _onBackColor , 2 ) , GetFigurePath () );
+                {
+                    paintEventArgs.Graphics.DrawPath ( new Pen ( _onBackColor , 2 ) , GetFigurePath () );
+                }
             }
             else
             {
                 if ( _solidStyle )
-                    pe.Graphics.FillPath ( new SolidBrush ( _offBackColor ) , GetFigurePath () );
+                {
+                    paintEventArgs.Graphics.FillPath ( new SolidBrush ( _offBackColor ) , GetFigurePath () );
+                }
                 else
-                    pe.Graphics.DrawPath ( new Pen ( _offBackColor , 2 ) , GetFigurePath () );
+                {
+                    paintEventArgs.Graphics.DrawPath ( new Pen ( _offBackColor , 2 ) , GetFigurePath () );
+                }
+                    
             }
 
             // トグルの位置計算
@@ -232,23 +241,23 @@ namespace WindowsFromLibrary.CustomControl
             switch ( _toggleDirection )
             {
                 case ToggleDirection.LeftToRight:
-                    toggleRect = new Rectangle ( isOn ? this.Width - this.Height + 1 : 2 , 2 , toggleSize , toggleSize );
+                    toggleRect = new Rectangle ( isCheck ? this.Width - this.Height + 1 : 2 , 2 , toggleSize , toggleSize );
                     break;
                 case ToggleDirection.RightToLeft:
-                    toggleRect = new Rectangle ( isOn ? 2 : this.Width - this.Height + 1 , 2 , toggleSize , toggleSize );
+                    toggleRect = new Rectangle ( isCheck ? 2 : this.Width - this.Height + 1 , 2 , toggleSize , toggleSize );
                     break;
                 case ToggleDirection.TopToBottom:
-                    toggleRect = new Rectangle ( 2 , isOn ? this.Height - this.Width + 1 : 2 , toggleSize , toggleSize );
+                    toggleRect = new Rectangle ( 2 , isCheck ? this.Height - this.Width + 1 : 2 , toggleSize , toggleSize );
                     break;
                 case ToggleDirection.BottomToTop:
-                    toggleRect = new Rectangle ( 2 , isOn ? 2 : this.Height - this.Width + 1 , toggleSize , toggleSize );
+                    toggleRect = new Rectangle ( 2 , isCheck ? 2 : this.Height - this.Width + 1 , toggleSize , toggleSize );
                     break;
                 default:
                     toggleRect = new Rectangle ( 2 , 2 , toggleSize , toggleSize );
                     break;
             }
 
-            pe.Graphics.FillEllipse ( new SolidBrush ( isOn ? _onToggleColor : _offToggleColor ) , toggleRect );
+            paintEventArgs.Graphics.FillEllipse ( new SolidBrush ( isCheck ? _onToggleColor : _offToggleColor ) , toggleRect );
 
             // テキスト描画
             using ( StringFormat stringFormat = new StringFormat () )
@@ -258,7 +267,7 @@ namespace WindowsFromLibrary.CustomControl
 
                 using ( Brush textBrush = new SolidBrush ( _fontColor ) )
                 {
-                    pe.Graphics.DrawString ( State , this.Font , textBrush , toggleRect , stringFormat );
+                    paintEventArgs.Graphics.DrawString ( State , this.Font , textBrush , toggleRect , stringFormat );
                 }
             }
         }
