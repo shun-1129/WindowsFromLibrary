@@ -27,9 +27,9 @@ namespace WindowsFromLibrary.CustomControl
     }
 
     /// <summary>
-    /// 円型トグルボタンクラス
+    /// スタジアム形トグルボタンクラス
     /// </summary>
-    public class CircleToggleButton : CheckBox
+    public class StadiumShapeToggleButton : CheckBox
     {
         #region メンバ変数
         private Color _onBackColor = Color.MediumBlue;
@@ -168,7 +168,7 @@ namespace WindowsFromLibrary.CustomControl
         /// <summary>
         /// デフォルトコンストラクタ
         /// </summary>
-        public CircleToggleButton ()
+        public StadiumShapeToggleButton ()
         {
             this.MinimumSize = new Size ( 45 , 22 );
             this.AutoSize = false;
