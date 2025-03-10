@@ -41,6 +41,7 @@ namespace WindowsFromLibrary.CustomControl
         private float _fontSize = 10f;
         private Color _fontColor = Color.Black;
         private ToggleDirection _toggleDirection = ToggleDirection.LeftToRight;
+        private int _id;
         #endregion
 
         #region プロパティ
@@ -115,7 +116,11 @@ namespace WindowsFromLibrary.CustomControl
         public string State
         {
             get => _state;
-            set => _state = value;
+            set
+            {
+                _state = value;
+                this.Invalidate ();
+            }
         }
         /// <summary>
         /// フォントサイズ
@@ -153,6 +158,10 @@ namespace WindowsFromLibrary.CustomControl
                 this.Invalidate ();
             }
         }
+        /// <summary>
+        /// ID
+        /// </summary>
+        public int Id { get => _id; set => _id =  value ; }
         #endregion
 
         #region コンストラクタ
@@ -233,7 +242,6 @@ namespace WindowsFromLibrary.CustomControl
                 {
                     paintEventArgs.Graphics.DrawPath ( new Pen ( _offBackColor , 2 ) , GetFigurePath () );
                 }
-                    
             }
 
             // トグルの位置計算
