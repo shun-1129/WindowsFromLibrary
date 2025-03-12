@@ -1,5 +1,4 @@
 ﻿using System.Drawing.Drawing2D;
-using WindowsFromLibrary.CustomControls.Models;
 using static WindowsFromLibrary.CustomControls.Models.ToggleButtonDefinition;
 
 namespace WindowsFromLibrary.CustomControls
