@@ -175,6 +175,17 @@ namespace WindowsFromLibrary.CustomControls
         }
         #endregion
 
+        #region コンストラクタ
+        /// <summary>
+        /// デフォルトコンストラクタ
+        /// </summary>
+        public BaseToggleButton ()
+        {
+            this.MinimumSize = new Size ( 45 , 22 );
+            this.AutoSize = false;
+        }
+        #endregion
+
         #region メソッド
         #region 公開メソッド
         #endregion

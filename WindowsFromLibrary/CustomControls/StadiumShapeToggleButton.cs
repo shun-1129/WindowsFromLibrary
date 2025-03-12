@@ -18,11 +18,7 @@ namespace WindowsFromLibrary.CustomControls
         /// <summary>
         /// デフォルトコンストラクタ
         /// </summary>
-        public StadiumShapeToggleButton ()
-        {
-            this.MinimumSize = new Size ( 45 , 22 );
-            this.AutoSize = false;
-        }
+        public StadiumShapeToggleButton () { }
         #endregion
 
         /// <summary>
