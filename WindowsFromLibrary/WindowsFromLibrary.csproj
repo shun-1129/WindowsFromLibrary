@@ -1,15 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0-windows7.0</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="if &quot;$(Configuration)&quot; == &quot;Release&quot; (&#xD;&#xA;   xcopy /Y /I &quot;$(TargetDir)&quot; &quot;%25USERPROFILE%25\Documents\SelfMadeDLL\WindowsFromLibrary\&quot;&#xD;&#xA;)" />
+    <Exec Command="call ../DLLCopy $(ProjectDir) $(OutDir) $(ProjectName)" />
   </Target>
 
 </Project>
